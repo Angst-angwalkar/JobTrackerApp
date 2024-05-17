@@ -4,7 +4,7 @@ import datetime
 import uuid
 
 
-class UserSerializer(serializers.ModelSerializer):
+class UserCreateSerializer(serializers.ModelSerializer):
     user_id = serializers.IntegerField()
     user_name = serializers.CharField()
     email = serializers.EmailField()

@@ -1,36 +1,28 @@
 from rest_framework.views import APIView
 from rest_framework.decorators import api_view
-from user_onboarding.serializers.user_serializer import UserCreateSerializer, UserResponseSerializer
+
 from rest_framework.parsers import JSONParser
 from rest_framework.response import Response
+from ..models.user_model import User
+from ..models.user_manager import UserManager
+from ..services.user_services import UserServices
 
 
 class UserCreateView(APIView):
     """
     View for User Creation and basic user apis
+    Handles CRUD Operations for User.
     """
 
-    parser_classes = [JSONParser]
-    serializer_class = UserCreateSerializer
-    response_serializer_class = UserResponseSerializer
+    service_class = UserServices()
+
+    def get(self, request):
+        return Response(self.service_class._get_user(request.query_params))
 
 
+    def post(self, request):        
+        return Response(self.service_class._create_user(request.data))
+    
 
-    def post(self, request):
-
-        response = {}
-
-        user = self.serializer_class(data = request.data)
-
-        if user.is_valid():
-            user = user.save()
-            serializer = self.response_serializer_class(user)
-            response["data"] = serializer.data
-            response["message"] = "User Created Successfully"
-            response["status_code"] = 200
-        else:
-            response["message"] = "User Creation Failed"
-            response["data"] = user.errors
-            response["status_code"] = 400
-        
-        return Response(response)
+    def put(self, request):        
+        return Response(self.service_class._update_user(request.data))

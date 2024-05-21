@@ -20,7 +20,7 @@ class UserCreateSerializer(UserSerializer):
 
 
     def validate_user_name(self, value) -> str:
-        if len(value) < 5 or len(value) > 15:
+        if len(value) < 5 or len(value) > 20:
             raise serializers.ValidationError("Username cannot has to be between 8 to 15 characters!")
         return value
     

@@ -8,7 +8,7 @@ import uuid
 class UserModel(AbstractBaseUser):
     _id = models.AutoField(primary_key=True, null=False)
     user_id = models.TextField(default=uuid.uuid4().hex[:12])
-    user_name = models.TextField()
+    username = models.TextField()
     first_name = models.TextField()
     last_name = models.TextField()
     email = models.TextField()
@@ -30,7 +30,7 @@ class UserModel(AbstractBaseUser):
 class User(UserModel):
 
     class Meta:
-        verbose_name = ("user_model")
+        verbose_name = ("user")
         abstract = False
         db_table = "user_model"
 

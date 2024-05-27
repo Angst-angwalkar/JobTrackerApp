@@ -1,6 +1,7 @@
 from django.contrib.auth.models import BaseUserManager
 from django.db.models.manager import BaseManager
 from django.core.exceptions import ValidationError
+from django.contrib.auth.hashers import make_password, check_password
 from django.db import models
 import hashlib, uuid
 
@@ -35,19 +36,18 @@ class UserManager(BaseUserManager, BaseManager):
 
         email = self.normalize_email(email=email)
 
-        password = self._pass_encryption(extra_fields.get('password'))
+        # password = make_password(extra_fields.get('password'))#self._pass_encryption(extra_fields.get('password'))
 
 
         user = self.model(
             email = email,
-            password = password,
             username = username,
             first_name = first_name,
             last_name = last_name,
             mobile = mobile,
             **extra_fields
         )
-
+        user.set_password(extra_fields.get('password'))
         user.save(using=self._db)
         return user
 
@@ -64,6 +64,12 @@ class UserManager(BaseUserManager, BaseManager):
         if not param_dict:
             return {}
         return self.get_queryset().filter(**param_dict).first()
+    
+
+
+    # def check_password(self, password) -> bool:
+    #     print("CHECKING PASSWORD")
+    #     return self._pass_encryption(password) == self.password
 
 
 class UserManagerQuery(models.Manager):

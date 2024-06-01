@@ -15,20 +15,27 @@ class UserCreateView(APIView):
     View for User Creation and basic user apis
     Handles CRUD Operations for User.
     """
-    permission_classes = [IsAuthenticated]
-
     service_class = UserServices()
 
-    def get(self, request):
-        response = self.service_class._get_user(request.query_params)
-        return Response(response, status=response["status"])
+
 
 
     def post(self, request):        
-        response = self.service_class._create_user(request.query_params)
-        return Response(response, status=response["status"])
+        response = self.service_class._create_user(request.data)
+        return Response(response, status=response["status_code"])
     
 
+
+
+class UserView(APIView):
+
+    service_class = UserServices()
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        response = self.service_class._get_user(request.query_params)
+        return Response(response, status=response["status_code"])
+    
     def put(self, request):     
         response = self.service_class._update_user(request.data)   
-        return Response(response, status=response["status"])
+        return Response(response, status=response["status_code"])

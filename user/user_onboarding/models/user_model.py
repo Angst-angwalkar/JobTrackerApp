@@ -20,7 +20,7 @@ class Metadata(models.Model):
     orignalFilename = models.TextField(default='')
 
     class Meta:
-        abstract = True
+        abstract = False
         ordering = ['-lastModifiedDate']
 
 class ProfilePhoto(models.Model):
@@ -29,7 +29,7 @@ class ProfilePhoto(models.Model):
     metadata = models.ForeignKey(Metadata, on_delete=models.CASCADE)
 
     class Meta:
-        abstract = True
+        abstract = False
 
 
 
@@ -45,7 +45,7 @@ class UserModel(AbstractBaseUser):
     created_on = models.DateTimeField(auto_now_add=True)
     deactivated_on = models.DateTimeField(null=True)
     updated_on = models.DateTimeField(null=True)
-    profile_photo = models.ForeignKey(ProfilePhoto, on_delete=models.CASCADE)
+    profile_photo = models.ForeignKey(ProfilePhoto, on_delete=models.CASCADE, null=True)
     password = models.TextField()
 
     objects = UserManager()

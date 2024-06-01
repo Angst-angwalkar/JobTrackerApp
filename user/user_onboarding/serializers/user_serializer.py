@@ -35,14 +35,13 @@ class UserSerializer(serializers.ModelSerializer):
         child = ProfilePictureSerializer(required = False),
         required = False, read_only = True
     )
-    age = serializers.IntegerField()
-    user_id = serializers.CharField()
-    name = serializers.CharField()
-    username = serializers.CharField()
-    email = serializers.EmailField()
-    mobile = serializers.CharField()
-    date_of_birth = serializers.DateField()
-    is_active = serializers.BooleanField()
+    user_id = serializers.CharField(required=False)
+    first_name = serializers.CharField(required=False)
+    last_name = serializers.CharField(required=False)
+    username = serializers.CharField(required=False)
+    email = serializers.EmailField(required=False)
+    mobile = serializers.CharField(required=False)
+    is_active = serializers.BooleanField(required=False)
     class Meta:
         model = User
         fields = "__all__"
@@ -91,5 +90,5 @@ class LoginInputSerializer(serializers.Serializer):
 class LoginOutputSerializer(UserSerializer):
     class Meta:
         model = User
-        fields = ['_id','profile_photo','age','last_login','user_id','name','username', 
-        'email','mobile','date_of_birth','is_active']
+        fields = ['_id','profile_photo','last_login','user_id','username', 
+        'email','mobile','is_active']

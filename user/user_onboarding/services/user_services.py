@@ -67,7 +67,7 @@ class UserServices:
 
     def _create_user(self, request):
         response = {}
-
+        print(request)
         user = self.create_serializer_class(data = request)
 
         if user.is_valid():
